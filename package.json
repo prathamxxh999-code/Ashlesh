@@ -1,0 +1,9 @@
+{
+  "name": "ashlesh-portfolio",
+  "private": true,
+  "scripts": {
+    "build": "node src/build-portfolio.js",
+    "verify": "node src/verify-portfolio.js",
+    "preview": "node src/preview-server.js"
+  }
+}
