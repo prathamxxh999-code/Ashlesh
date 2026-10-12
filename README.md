@@ -14,3 +14,5 @@ Open [index.html](index.html) in a browser. The site is self contained apart fro
 - `index.html` is the finished portfolio; `Ashlesh_Gavas_Resume.pdf` is its downloadable resume.
 
 Node.js is the only build requirement. Run `npm run build` to regenerate the site, `npm run verify` to check it, or `npm run preview` to serve it locally on port 5179.
+
+Vercel runs `npm run build` and serves the generated `public/` directory. The deployment settings are in `vercel.json`.

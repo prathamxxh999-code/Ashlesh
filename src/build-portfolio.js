@@ -4,6 +4,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const source = path.join(__dirname, 'original.html');
 const output = path.join(root, 'index.html');
+const publicDir = path.join(root, 'public');
 let html = fs.readFileSync(source, 'utf8');
 const assetScript = html.match(/<script>window\.IMG=(\{.*?\});window\.META=(\{.*?\});<\/script>/s);
 if (!assetScript) throw new Error('Embedded project assets not found');
@@ -18,7 +19,10 @@ for (const key of Object.keys(projectImages)) {
 html = html.replace(assetScript[0], `<script>window.IMG=${JSON.stringify(projectImages)};window.META=${JSON.stringify(projectImageMeta)};</script>`);
 const resumeTag = html.match(/<script id="resumeB64" type="text\/plain">([^<]+)<\/script>/);
 if (!resumeTag) throw new Error('Embedded resume not found');
-fs.writeFileSync(path.join(root, 'Ashlesh_Gavas_Resume.pdf'), Buffer.from(resumeTag[1], 'base64'));
+const resume = Buffer.from(resumeTag[1], 'base64');
+fs.writeFileSync(path.join(root, 'Ashlesh_Gavas_Resume.pdf'), resume);
+fs.mkdirSync(publicDir, {recursive:true});
+fs.writeFileSync(path.join(publicDir, 'Ashlesh_Gavas_Resume.pdf'), resume);
 html = html.replace(resumeTag[0], '');
 
 function replaceOnce(before, after) {
@@ -385,4 +389,5 @@ replaceOnce(`animation:bar 2.3s .1s`, `animation:bar 1.2s .1s`);
 
 fs.mkdirSync(path.dirname(output), {recursive:true});
 fs.writeFileSync(output, html);
+fs.writeFileSync(path.join(publicDir, 'index.html'), html);
 console.log(output);

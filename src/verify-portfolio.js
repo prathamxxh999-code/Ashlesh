@@ -5,6 +5,8 @@ const assert=require('assert');
 const root=path.resolve(__dirname,'..');
 const output=path.join(root,'index.html');
 const html=fs.readFileSync(output,'utf8');
+assert.strictEqual(fs.readFileSync(path.join(root,'public','index.html'),'utf8'),html,'Vercel output matches the site');
+assert(fs.readFileSync(path.join(root,'public','Ashlesh_Gavas_Resume.pdf')).equals(fs.readFileSync(path.join(root,'Ashlesh_Gavas_Resume.pdf'))),'Vercel resume matches');
 
 const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)];
 for(const [i,script] of scripts.entries()){
